@@ -14,6 +14,7 @@ import {
     chakra,
     useColorModeValue,
 } from '@chakra-ui/react'
+import ConnectWalletcomponent from './ConnectWalletcomponent'
 
 export default function LoginComponent() {
     return (
@@ -52,9 +53,9 @@ export default function LoginComponent() {
                                 <Checkbox>Remember me</Checkbox>
                                 <Text color={'blue.400'}>Forgot password?</Text>
                             </Stack>
-                            <Button>
-                                Sign in with Ethereum
-                            </Button>
+                           <Box>
+                            <ConnectWalletcomponent />
+                           </Box>
                             <Button
                                 bg={'blue.400'}
                                 color={'white'}

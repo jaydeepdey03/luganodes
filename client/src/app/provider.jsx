@@ -3,6 +3,10 @@
 
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { WagmiConfig, configureChains, createConfig, mainnet } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { polygonMumbai } from 'wagmi/chains'
+import { mode } from '@chakra-ui/theme-tools'
 
 export function Providers({
     children
@@ -23,12 +27,20 @@ export function Providers({
         },
     })
 
+    const { publicClient, webSocketPublicClient } = configureChains([polygonMumbai], [publicProvider()])
 
+    const config = createConfig({
+        publicClient,
+        webSocketPublicClient,
+        autoConnect: true,
+    })
     return (
-        <CacheProvider>
-            <ChakraProvider theme={theme}>
-                {children}
-            </ChakraProvider>
-        </CacheProvider>
+        <WagmiConfig config={config}>
+            <CacheProvider>
+                <ChakraProvider theme={theme}>
+                    {children}
+                </ChakraProvider>
+            </CacheProvider>
+        </WagmiConfig>
     )
 }
