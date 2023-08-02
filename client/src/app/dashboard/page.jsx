@@ -21,10 +21,10 @@ export default function Dashboard() {
                 duration: 9000,
             })
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
             toast({
                 title: "Error",
-                description: "Something went wrong",
+                description: error.message,
                 status: "error",
                 duration: 9000,
                 isClosable: true,

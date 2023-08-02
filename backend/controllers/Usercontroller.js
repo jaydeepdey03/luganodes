@@ -27,25 +27,31 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-        const accessToken = jwt.sign({ userId: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-        res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 3600000 });
-        res.json({ message: 'Login successful' });
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      const accessToken = req.cookies.accessToken;
+      if (accessToken) {
+        return res.status(200).json({ message: 'User is already logged in' });
+      }
+  
+      const newAccessToken = jwt.sign({ userId: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+      res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 3600000 });
+  
+      res.json({ message: 'Login successful' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message    });
+      console.error(error);
+      res.status(500).json({ message: error.message });
     }
-}
-
+  };
+  
 module.exports = {
     register,
     login,

@@ -1,13 +1,14 @@
-import { Button, Center } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+'use client'
+
+import { Box } from '@chakra-ui/react'
+import styles from './page.module.css'
+import Homecomponent from '@/component/Homecomponent'
+// import HomeComponent from '@/component/Homecomponent'
 
 export default function Home() {
-  const router = useRouter()
   return (
-    <Center h="100vh">
-      <Button onClick={()=>router.push('/login')}>
-        Login
-      </Button>
-    </Center>
+    <Box>
+      <Homecomponent />
+    </Box>
   )
 }

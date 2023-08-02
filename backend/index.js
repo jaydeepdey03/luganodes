@@ -56,8 +56,16 @@ app.get('/api/me', verifyJwt, async (req, res) => {
 
 app.get('/api/logout', async (req, res) => {
     // send the data got from the cookies back to the user
-    res.clearCookie('accessToken')
-    res.send('Logged out')
+    try{
+        res.clearCookie('accessToken')
+        res.status(201).json({
+            message: 'logged out'
+        })
+    }catch(err){
+        res.status(500).json({
+            error: err.message
+        })
+    }
 })
 
 app.listen(5000, () => {
