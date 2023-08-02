@@ -50,23 +50,10 @@ app.post('/api/verify', async function (req, res) {
 
 
 app.get('/api/me', verifyJwt, async (req, res) => {
-    if(req.address || req.userId) return res.status(200).json(true)
-    res.status(401).json(false)
+    if (req.address || req.userId) return res.status(200).json({ success: true })
+    res.status(401).json({ success: false })
 })
 
-app.get('/api/logout', async (req, res) => {
-    // send the data got from the cookies back to the user
-    try{
-        res.clearCookie('accessToken')
-        res.status(201).json({
-            message: 'logged out'
-        })
-    }catch(err){
-        res.status(500).json({
-            error: err.message
-        })
-    }
-})
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');

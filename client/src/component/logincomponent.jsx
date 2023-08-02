@@ -12,12 +12,46 @@ import {
     chakra,
     useColorModeValue,
     FormErrorMessage,
+    useToast,
 } from '@chakra-ui/react'
 import SignInButton from './SigninButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function LoginComponent() {
+    const toast = useToast()
+    const router = useRouter()
+    const [loading, setLoading] = useState(false)
+    const login = async (email, password) => {
+        fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+            credentials: 'include',
+        }).then((res) => {
+            toast({
+                title: "Success",
+                description: "Logged in successfully",
+                status: "success",
+                duration: 9000,
+                isCloseable: true,
+            })
+            router.push('/dashboard')
+        }).catch((err) => {
+            toast({
+                title: "Error",
+                description: err.message,
+                status: "error",
+                duration: 9000,
+                isCloseable: true,
+            })
+        }).finally(() => {
+            setLoading(false)
+        })
+    }
     return (
         <Flex
             // suppressHydrationWarning
@@ -48,7 +82,8 @@ export default function LoginComponent() {
                             password: Yup.string().required('Required'),
                         })}
                         onSubmit={(value, _) => {
-                            console.log(value)
+                            login(value.email, value.password)
+                            // console.log(value)
                             // action.resetForm()
                         }}
                     >
@@ -77,13 +112,17 @@ export default function LoginComponent() {
                                                 direction={{ base: 'column', sm: 'row' }}
                                                 align={'start'}
                                                 justify={'space-between'}>
-                                                <Checkbox>Remember me</Checkbox>
-                                                <Text color={'blue.400'}>Forgot password?</Text>
+                                                <Link href="/register">New User?</Link>
+                                                <Text color={'blue.400'} as={Link} href="/forgotpassword">Forgot password?</Text>
                                             </Stack>
                                             <Box>
                                                 <SignInButton />
                                             </Box>
                                             <Button
+                                                type="submit"
+                                                isLoading={loading}
+                                                loadingText="signing in..."
+                                                size="md"
                                                 bg={'blue.400'}
                                                 color={'white'}
                                                 _hover={{

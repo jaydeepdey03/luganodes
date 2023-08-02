@@ -6,7 +6,7 @@ function verifyJwt(req, res, next) {
 
   const accessToken = req.cookies.accessToken
   if (!accessToken) {
-    return res.status(401).json({ message: 'Access token not found' });
+    return res.status(401).json({ message: 'Access token not found', success: false });
   }
 
   try {
@@ -17,7 +17,7 @@ function verifyJwt(req, res, next) {
     if (decodedToken.address) req.address = decodedToken.address;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid access token' });
+    return res.status(401).json({ message: 'Invalid access token', success: false });
   }
 }
 

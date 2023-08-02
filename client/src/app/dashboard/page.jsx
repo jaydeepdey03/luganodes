@@ -10,7 +10,7 @@ export default function Dashboard() {
     const toast = useToast()
     const logout = async()=> {
         try {
-            const res = await fetch('http://localhost:5000/api/logout')
+            const res = await fetch('http://localhost:5000/logout')
             const data = await res.json()
             console.log(data)
             router.push('/login')

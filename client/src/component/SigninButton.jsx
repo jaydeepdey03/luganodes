@@ -79,9 +79,6 @@ function SignInButton() {
             setEthereumLoading(false)
         }
     }
-
-    console.log(state, 'state')
-
     return (
         <Box suppressHydrationWarning>
             {
