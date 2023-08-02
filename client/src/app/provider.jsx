@@ -6,7 +6,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { WagmiConfig, configureChains, createConfig, mainnet } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { polygonMumbai } from 'wagmi/chains'
-import { mode } from '@chakra-ui/theme-tools'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 export function Providers({
     children
@@ -27,9 +27,12 @@ export function Providers({
         },
     })
 
-    const { publicClient, webSocketPublicClient } = configureChains([polygonMumbai], [publicProvider()])
+    const { chains, publicClient, webSocketPublicClient } = configureChains([polygonMumbai], [publicProvider()])
 
     const config = createConfig({
+        connectors: [
+            new MetaMaskConnector({ chains }),
+        ],
         publicClient,
         webSocketPublicClient,
         autoConnect: true,

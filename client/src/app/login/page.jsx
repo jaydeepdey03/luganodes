@@ -1,3 +1,4 @@
+'use client'
 import LoginComponent from "@/component/logincomponent";
 
 export default function Login() {
