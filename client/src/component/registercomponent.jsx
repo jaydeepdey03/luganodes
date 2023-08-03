@@ -31,7 +31,7 @@ export default function RegisterComponent() {
   const register = async (email, password) => {
     setLoading(true)
     try {
-      const res = await fetch(`${orocess.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
