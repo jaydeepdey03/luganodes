@@ -10,7 +10,7 @@ export default function Dashboard() {
     const toast = useToast()
     const logout = async()=> {
         try {
-            const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/logout`)
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`)
             const data = await res.json()
             console.log(data)
             router.push('/login')

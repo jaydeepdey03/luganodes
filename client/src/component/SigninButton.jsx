@@ -56,7 +56,7 @@ function SignInButton() {
             })
 
             // Verify signature
-            const verifyRes = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/verify`, {
+            const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/verify`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
